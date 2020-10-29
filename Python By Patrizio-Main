@@ -2,15 +2,12 @@ import tkinter as tk
 from tkinter import font as tkfont
 
 
-
-
-
 class Kenlyn(tk.Tk):
 
     ###Initializes the start up of the window so automatically brings the Main page when run
     def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self,*args,**kwargs)
-        
+        tk.Tk.__init__(self, *args, **kwargs)
+
         ###Configurations for Main page label
         self.title_font = tkfont.Font(family='Helvetica',
                                       size=18, weight="bold", slant="italic")
@@ -19,22 +16,21 @@ class Kenlyn(tk.Tk):
         framez = tk.Frame(self)
         framez.pack(side="top", fill="both", expand=True)
         ###framez configuration
-        framez.grid_rowconfigure(0,weight=1)
-        framez.grid_columnconfigure(0,weight=1)
+        framez.grid_rowconfigure(0, weight=1)
+        framez.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (Main, DataPage, Functions, ifPage, DataLib, Kinter):
-            
-            frame = F(framez,self)
+        for F in (Main, DataPage, Functions, ifPage, DataLib, Kinter, Ops, SubVarpage):
+            frame = F(framez, self)
             self.frames[F] = frame
 
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(Main)
 
-    def show_frame(self,cont):
+    def show_frame(self, cont):
         frame = self.frames[cont]
-        frame.configure(background="blue")
+        frame.configure(background="pink")
         frame.tkraise()
 
 
@@ -44,52 +40,55 @@ class Main(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="Python by Patrizio", font=controller.title_font,fg="red",bg="black")
-        label.pack(pady=10,padx=10)
-        
+        label = tk.Label(self, text="Python by Patrizio", font=controller.title_font, fg="red", bg="black")
+        label.pack(pady=10, padx=10)
 
-    
         ###All Buttons on Main page
-        DataType = tk.Button(self, text="Data Types", fg ="red",pady=10, padx=10,
+        DataType = tk.Button(self, text="Data Types", fg="black", pady=10, padx=10,
                              command=lambda: controller.show_frame(DataPage))
 
-        FunctionPage = tk.Button(self, text="Functions",pady=10, padx=10, fg="grey",
+        FunctionPage = tk.Button(self, text="Functions", pady=10, padx=10, fg="violet",
                                  command=lambda: controller.show_frame(Functions))
 
-        ifState = tk.Button(self, text = "If and Else If (ELIF)Statements", fg="red",
-                          command=lambda: controller.show_frame(ifPage))
-        
-        DataLibButton = tk.Button(self, text = "Data Libraries",
-                          command=lambda: controller.show_frame(DataLib))
+        ifState = tk.Button(self, text="If and Else If (ELIF)Statements", fg="red",
+                            command=lambda: controller.show_frame(ifPage))
 
-        TkinterPage = tk.Button(self, text = "Tkinter", fg="red",
-                          command=lambda: controller.show_frame(Kinter))
-        
+        DataLibButton = tk.Button(self, text="Data Libraries",
+                                  command=lambda: controller.show_frame(DataLib))
+
+        TkinterPage = tk.Button(self, text="Tkinter", fg="red",
+                                command=lambda: controller.show_frame(Kinter))
+
+        OpsPage = tk.Button(self, text="Operaters and Expressions", fg="violet",
+                            command=lambda: controller.show_frame(Ops))
+
         ###Displaying all buttons on screen
         DataType.pack()
         FunctionPage.pack()
         ifState.pack()
         DataLibButton.pack()
         TkinterPage.pack()
+        OpsPage.pack()
+
 
 ###Data Types page configuration
 class DataPage(tk.Frame):
-    
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Data Types", font=controller.title_font)
         label.pack(pady=10, padx=10)
 
         ###Buttuns for Data Types page
-        Variable = tk.Button(self, text="Variables")
+        Variable = tk.Button(self, text="Variables",
+                             command=lambda: controller.show_frame(SubVarpage))
         Strings = tk.Button(self, text="Strings")
         Integers = tk.Button(self, text="Integers")
         Float = tk.Button(self, text="Float")
         Lists = tk.Button(self, text="Lists")
         Boolean = tk.Button(self, text="Booleans")
         Dictionaries = tk.Button(self, text="Dictionaries")
-
 
         ###Displaying all buttons on screen
         Variable.pack()
@@ -99,99 +98,102 @@ class DataPage(tk.Frame):
         Lists.pack()
         Dictionaries.pack()
         Boolean.pack()
-        
-        
+
         ### Buttom that brings you back to Main page
-        databack = tk.Button(self, text = "Back to Main Page",
-                          command=lambda: controller.show_frame(Main))
+        databack = tk.Button(self, text="Back to Main Page",
+                             command=lambda: controller.show_frame(Main))
         databack.pack()
 
 
+###Functions page configuration
 class Functions(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Functions", font=controller.title_font)
         label.pack(pady=10, padx=10)
         T = tk.Text(self, height=5, width=90)
-        T.insert(tk.END,"A function is a block of organized, reusable code that is used to perform a single related action. "
+        T.insert(tk.END,
+                 "A function is a block of organized, reusable code that is used to perform a single related action. "
                  "In Python a function is defined using the def keyword. To call a function, use\n the function name followed by parenthesis: def function(): "
                  "Arguments are specified after the function name, inside the parentheses. You can add as many arguments as you want, just separate them with a comma.\n\nExample:\n"
-                "def my_function(fname):\n" + "print(fname + ' Refsnes')\n"+ "my_function('Emil')")
+                 "def my_function(fname):\n" + "print(fname + ' Refsnes')\n" + "my_function('Emil')")
 
-        
-        T.configure(state='disabled',fg="red")
+        T.configure(state='disabled', fg="red")
         T.pack()
 
-        FunctionBack = tk.Button(self, text = "Back to Main Page",
-                          command=lambda: controller.show_frame(Main))
+        FunctionBack = tk.Button(self, text="Back to Main Page",
+                                 command=lambda: controller.show_frame(Main))
         FunctionBack.pack()
 
 
-
 class ifPage(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="If and Else If (ELIF)Statements", font=controller.title_font)
         label.pack(pady=10, padx=10)
 
-
-        ifback = tk.Button(self, text = "Back to Main Page",
-                          command=lambda: controller.show_frame(Main))
+        ifback = tk.Button(self, text="Back to Main Page",
+                           command=lambda: controller.show_frame(Main))
 
         ifback.pack()
 
 
-
-
-
 class DataLib(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Data Libraries", font=controller.title_font)
         label.pack(pady=10, padx=10)
 
-        back = tk.Button(self, text = "Back to Main Page",
-                          command=lambda: controller.show_frame(Main))
-
-
-
+        back = tk.Button(self, text="Back to Main Page",
+                         command=lambda: controller.show_frame(Main))
 
         back.pack()
 
 
-
-
 class Kinter(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Tkinter", font=controller.title_font)
         label.pack(pady=10, padx=10)
 
-        TkintBack = tk.Button(self, text = "Back to Main Page",
-                          command=lambda: controller.show_frame(Main))
-        
+        TkintBack = tk.Button(self, text="Back to Main Page",
+                              command=lambda: controller.show_frame(Main))
+
         TkintBack.pack()
 
+
+class Ops(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Operaters and Expressions (Arithmetic Expressions)", font=controller.title_font)
+        label.pack(pady=10, padx=10)
+
+        opsback = tk.Button(self, text="Back to Main Page",
+                            command=lambda: controller.show_frame(Main))
+
+        opsback.pack()
+
+
         
+class SubVarpage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Variables", font=controller.title_font)
+        label.pack(pady=10, padx=10)
 
+        varback = tk.Button(self, text="Back to Main Page",
+                            command=lambda: controller.show_frame(Main))
 
-    
-        
-
-        
-        
-
-
-
-
-
+        varback.pack()
 
 
 app = Kenlyn()
 app.geometry("900x900")
-app.iconbitmap =(r"C:\Users\patic\OneDrive\Desktop\Programming\The Projects\test_python_icon_131931.ico")
+app.iconbitmap = (r"C:\Users\patic\OneDrive\Desktop\Programming\The Projects\test_python_icon_131931.ico")
 app.mainloop()
